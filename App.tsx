@@ -7,7 +7,7 @@ import { ResultView } from './components/ResultView';
 import { Button } from './components/Button';
 import { AppStep, VideoFile, VideoSettings, ProcessingState } from './types';
 import { PROCESSING_MESSAGES } from './constants';
-import { ArrowRight, Film } from 'lucide-react';
+import { ArrowRight, Film, ChevronRight, Zap, Layers, Wand2 } from 'lucide-react';
 
 const DEFAULT_SETTINGS: VideoSettings = {
   resolution: '4K',
@@ -60,7 +60,6 @@ const App: React.FC = () => {
 
     // Simulate Processing
     let progress = 0;
-    let messageIndex = 0;
     
     const interval = setInterval(() => {
       progress += Math.random() * 2; // Random increment
@@ -79,7 +78,7 @@ const App: React.FC = () => {
         clearInterval(interval);
         setProcessingState({
             progress: 100,
-            statusMessage: 'Complete!',
+            statusMessage: 'SEQUENCE COMPLETE',
             estimatedTimeRemaining: '00:00',
             isComplete: true
         });
@@ -108,44 +107,71 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-slate-950 bg-grid-pattern pb-20 selection:bg-cyan-500/30">
       <Header />
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-10">
         
-        {/* Step Indicator (Optional visual aid) */}
+        {/* Step Indicator */}
         {step !== 'upload' && step !== 'result' && (
-           <div className="flex items-center gap-2 text-sm text-slate-500 mb-6">
-              <span className={step === 'settings' ? 'text-indigo-600 font-medium' : ''}>Configuration</span>
-              <ArrowRight className="w-4 h-4" />
-              <span className={step === 'processing' ? 'text-indigo-600 font-medium' : ''}>Processing</span>
-              <ArrowRight className="w-4 h-4" />
-              <span>Result</span>
+           <div className="flex items-center gap-3 text-sm text-slate-500 mb-8 font-mono">
+              <span className={`flex items-center gap-2 ${step === 'settings' ? 'text-cyan-400 font-bold' : ''}`}>
+                <span className="text-[10px]">01</span> CONFIG
+              </span>
+              <ChevronRight className="w-3 h-3 opacity-50" />
+              <span className={`flex items-center gap-2 ${step === 'processing' ? 'text-cyan-400 font-bold' : ''}`}>
+                <span className="text-[10px]">02</span> PROCESS
+              </span>
+              <ChevronRight className="w-3 h-3 opacity-50" />
+              <span>
+                <span className="text-[10px]">03</span> RESULT
+              </span>
            </div>
         )}
 
         {step === 'upload' && (
-          <div className="space-y-12 animate-fade-in-up">
-            <div className="text-center space-y-4 mt-8">
-              <h1 className="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight">
-                Transform Low-Res Video <br />
-                <span className="text-indigo-600">Into 4K Masterpieces</span>
+          <div className="space-y-16 animate-fade-in-up">
+            <div className="text-center space-y-5 mt-8 relative">
+              <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-cyan-500/20 rounded-full blur-[100px] pointer-events-none"></div>
+              
+              <h1 className="text-5xl md:text-6xl font-black text-white tracking-tight font-display drop-shadow-xl">
+                Redefine Video<br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-500">Clarification</span>
               </h1>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                Drag and drop your footage to instantly enhance resolution, frame rate, and clarity using our advanced cloud-based AI engine.
+              <p className="text-lg text-slate-400 max-w-2xl mx-auto font-light leading-relaxed">
+                Next-gen AI upscaling pipeline. Enhance footage to <span className="text-white font-medium">4K resolution</span>, interpolate framerates, and restore details with neural precision.
               </p>
             </div>
+            
             <FileUpload onFileSelect={handleFileSelect} />
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
                {[
-                 { title: 'AI Upscaling', desc: 'Upscale 360p/720p content to crisp 4K resolution.' },
-                 { title: 'Frame Interpolation', desc: 'Boost fluidity by converting 30fps to 60fps or 120fps.' },
-                 { title: 'Artifact Removal', desc: 'Automatically clean noise, blockiness, and compression artifacts.' }
+                 { 
+                   title: 'Neural Upscale', 
+                   desc: 'Convert 360p/720p to 4K using GANs.', 
+                   icon: <Wand2 className="w-6 h-6 text-cyan-400" />
+                 },
+                 { 
+                   title: 'Frame Gen', 
+                   desc: 'Fluid motion via 60fps interpolation.', 
+                   icon: <Layers className="w-6 h-6 text-violet-400" />
+                 },
+                 { 
+                   title: 'Denoise Core', 
+                   desc: 'Advanced artifact & compression cleaning.', 
+                   icon: <Zap className="w-6 h-6 text-emerald-400" />
+                 }
                ].map((feature, i) => (
-                 <div key={i} className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <h3 className="font-semibold text-slate-800 mb-2">{feature.title}</h3>
-                    <p className="text-sm text-slate-500">{feature.desc}</p>
+                 <div key={i} className="group bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)] relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity transform group-hover:scale-110 duration-500">
+                        {feature.icon}
+                    </div>
+                    <div className="mb-4 p-3 bg-slate-950 w-fit rounded-lg border border-slate-800 group-hover:border-slate-700">
+                        {feature.icon}
+                    </div>
+                    <h3 className="font-bold text-white mb-2 tracking-wide">{feature.title}</h3>
+                    <p className="text-sm text-slate-400 leading-relaxed">{feature.desc}</p>
                  </div>
                ))}
             </div>
@@ -155,16 +181,19 @@ const App: React.FC = () => {
         {step === 'settings' && videoFile && (
           <div className="space-y-6 animate-fade-in">
             {/* File Preview Card */}
-            <div className="bg-white p-4 rounded-xl border border-slate-200 flex items-center gap-4">
-              <div className="w-24 h-16 bg-black rounded-lg overflow-hidden flex-shrink-0 relative">
-                <video src={videoFile.previewUrl} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                   <Film className="w-6 h-6 text-white" />
+            <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 flex items-center gap-5 shadow-lg">
+              <div className="w-32 h-20 bg-black rounded-lg overflow-hidden flex-shrink-0 relative border border-slate-700 group">
+                <video src={videoFile.previewUrl} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                   <Film className="w-8 h-8 text-white/50 drop-shadow-md" />
                 </div>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-medium text-slate-900 truncate">{videoFile.file.name}</h3>
-                <p className="text-sm text-slate-500">{(videoFile.file.size / (1024*1024)).toFixed(1)} MB • Original Format</p>
+                <h3 className="font-bold text-white text-lg truncate mb-1">{videoFile.file.name}</h3>
+                <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
+                    <span className="bg-slate-800 px-2 py-0.5 rounded text-cyan-400 border border-slate-700">SOURCE INPUT</span>
+                    <span>{(videoFile.file.size / (1024*1024)).toFixed(1)} MB</span>
+                </div>
               </div>
             </div>
 
@@ -177,10 +206,10 @@ const App: React.FC = () => {
             <div className="flex justify-end pt-4">
               <Button 
                 size="lg" 
-                className="w-full md:w-auto px-12"
+                className="w-full md:w-auto px-12 font-bold"
                 onClick={startProcessing}
               >
-                Start Upscaling
+                INITIATE PROCESSING
               </Button>
             </div>
           </div>

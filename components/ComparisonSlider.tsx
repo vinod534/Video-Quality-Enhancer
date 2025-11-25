@@ -64,7 +64,7 @@ export const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ videoUrl, cl
   return (
     <div 
       ref={containerRef}
-      className={`relative w-full aspect-video bg-black rounded-lg overflow-hidden select-none cursor-ew-resize group ${className}`}
+      className={`relative w-full aspect-video bg-slate-950 rounded-lg overflow-hidden select-none cursor-ew-resize group border border-slate-800 shadow-2xl ${className}`}
       onMouseDown={() => setIsDragging(true)}
       onMouseUp={() => setIsDragging(false)}
       onMouseLeave={() => setIsDragging(false)}
@@ -83,13 +83,13 @@ export const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ videoUrl, cl
         muted
         playsInline
       />
-      <div className="absolute top-4 right-4 bg-indigo-600/90 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none backdrop-blur-sm border border-indigo-400/30">
-        Upscaled (Enhanced)
+      <div className="absolute top-4 right-4 bg-slate-900/80 text-cyan-400 px-3 py-1.5 rounded-sm text-[10px] font-bold pointer-events-none backdrop-blur-md border border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.2)] uppercase tracking-wider font-mono">
+        Upscaled Output
       </div>
 
       {/* Before Image (Clipped & Blurred) */}
       <div 
-        className="absolute top-0 left-0 h-full overflow-hidden bg-black"
+        className="absolute top-0 left-0 h-full overflow-hidden bg-slate-950"
         style={{ width: `${sliderPosition}%` }}
       >
         <video
@@ -99,30 +99,30 @@ export const ComparisonSlider: React.FC<ComparisonSliderProps> = ({ videoUrl, cl
           // Simulate lower quality via CSS filter for comparison
           style={{ 
              width: containerRef.current ? containerRef.current.offsetWidth : '100vw',
-             filter: 'blur(1px) opacity(0.9)'
+             filter: 'blur(1px) opacity(0.8) grayscale(0.2)'
           }}
           loop
           muted
           playsInline
         />
-        <div className="absolute top-4 left-4 bg-black/60 text-white px-2 py-1 rounded text-xs font-bold pointer-events-none backdrop-blur-sm">
-            Original
+        <div className="absolute top-4 left-4 bg-slate-900/80 text-slate-400 px-3 py-1.5 rounded-sm text-[10px] font-bold pointer-events-none backdrop-blur-md border border-slate-700 uppercase tracking-wider font-mono">
+            Original Source
         </div>
       </div>
 
       {/* Slider Handle */}
       <div 
-        className="absolute top-0 bottom-0 w-1 bg-white cursor-ew-resize shadow-[0_0_15px_rgba(0,0,0,0.5)] z-10"
+        className="absolute top-0 bottom-0 w-0.5 bg-cyan-500 cursor-ew-resize shadow-[0_0_15px_rgba(6,182,212,0.8)] z-10"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-lg text-indigo-600 border border-slate-200">
-          <ChevronsLeftRight className="w-5 h-5" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)] text-cyan-400 border border-cyan-500/50">
+          <ChevronsLeftRight className="w-4 h-4" />
         </div>
       </div>
       
       {!videoRef1.current?.paused && (
          <div className="absolute bottom-4 left-0 right-0 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-            <span className="bg-black/50 text-white text-xs px-3 py-1.5 rounded-full backdrop-blur-md">Click to Pause/Play</span>
+            <span className="bg-slate-900/70 text-slate-300 text-[10px] px-3 py-1 rounded-full backdrop-blur-md border border-slate-700 tracking-wide uppercase">Click to Pause/Play</span>
          </div>
       )}
     </div>
